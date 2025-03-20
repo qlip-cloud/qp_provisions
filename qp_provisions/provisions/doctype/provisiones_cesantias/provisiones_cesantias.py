@@ -28,7 +28,7 @@ class ProvisionesCesantias(Document):
 			all_accounts = f" = '{all_accounts[0]}'"
 		
 		dr = frappe.db.sql(f"""
-			SELECT t.party, party_type, SUM(t.saldo) as saldo, SUM(t.saldo_porc) as saldo_porc
+			SELECT t.party, t.party_type, SUM(t.saldo) as saldo, SUM(t.saldo_porc) as saldo_porc
 			FROM (
 				SELECT 	party, 
 					party_type, 
