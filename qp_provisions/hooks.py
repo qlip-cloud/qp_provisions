@@ -2,11 +2,11 @@ from . import __version__ as app_version
 
 app_name = "qp_provisions"
 app_title = "Provisions"
-app_publisher = "H&[D[3}[D[}}}}}}}}}}}}}}}}}}}}}}}[B[B[B[B[B"
-app_description = "Provisions Config5"
+app_publisher = "Henderson Villegas"
+app_description = "Provisions Config"
 app_icon = "octicon octicon-file-directory"
 app_color = "grey"
-app_email = "h6enderson037g5mail.com"
+app_email = "henderson037gmail.com"
 app_license = "MIT"
 
 # Includes in <head>

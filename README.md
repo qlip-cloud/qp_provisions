@@ -1,6 +1,6 @@
 ## Provisions
 
-Provisions Config5
+Provisions Config
 
 #### License
 
