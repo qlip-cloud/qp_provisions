@@ -1,0 +1,105 @@
+{
+ "actions": [],
+ "autoname": "PRO.CES.#######",
+ "creation": "2025-03-13 14:19:47.928755",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "cuentas",
+  "parametros_section",
+  "cuenta_debito",
+  "naming_series",
+  "column_break_5",
+  "cuenta_credito",
+  "porcentaje",
+  "asientos_section",
+  "asientos_contables_generados"
+ ],
+ "fields": [
+  {
+   "fieldname": "cuentas",
+   "fieldtype": "Table",
+   "label": "Cuentas",
+   "options": "Account Provisiones Cesantias",
+   "reqd": 1
+  },
+  {
+   "fieldname": "parametros_section",
+   "fieldtype": "Section Break",
+   "label": "Parametros"
+  },
+  {
+   "fieldname": "cuenta_debito",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Cuenta Debito",
+   "options": "Account",
+   "reqd": 1
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "in_global_search": 1,
+   "in_list_view": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
+   "label": "Series",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_5",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "cuenta_credito",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Cuenta Credito",
+   "options": "Account",
+   "reqd": 1
+  },
+  {
+   "fieldname": "porcentaje",
+   "fieldtype": "Currency",
+   "label": "Porcentaje",
+   "reqd": 1
+  },
+  {
+   "fieldname": "asientos_section",
+   "fieldtype": "Section Break",
+   "label": "Asientos"
+  },
+  {
+   "fieldname": "asientos_contables_generados",
+   "fieldtype": "Table",
+   "label": "Asientos Contables Generados",
+   "options": "Journal Entry Provisions Cesantias",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-03-14 13:26:45.693305",
+ "modified_by": "Administrator",
+ "module": "Provisions",
+ "name": "Provisiones Cesantias",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}
