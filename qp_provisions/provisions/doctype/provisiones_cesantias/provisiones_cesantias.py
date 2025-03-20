@@ -23,7 +23,7 @@ class ProvisionesCesantias(Document):
 		if len(all_accounts) > 1:
 			all_accounts = tuple(all_accounts)
 		else:
-			all_accounts = all_accounts[0]
+			all_accounts = (all_accounts[0])
 	
 		dr = frappe.db.sql(f"""
 			SELECT t.party, party_type, SUM(t.saldo) as saldo, SUM(t.saldo_porc) as saldo_porc
