@@ -82,12 +82,13 @@
    "fieldname": "estado",
    "fieldtype": "Select",
    "label": "Estado",
-   "options": "\nNuevo\nEn Proceso\nEjecutado"
+   "options": "\nNuevo\nEn Proceso\nEjecutado",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-03-20 09:51:57.219729",
+ "modified": "2025-03-20 10:38:48.935529",
  "modified_by": "Administrator",
  "module": "Provisions",
  "name": "Provisiones Cesantias",
