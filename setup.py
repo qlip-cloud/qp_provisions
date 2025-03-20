@@ -9,9 +9,9 @@ from qp_provisions import __version__ as version
 setup(
 	name='qp_provisions',
 	version=version,
-	description='Provisions Config5',
-	author='H&[D[3}[D[}}}}}}}}}}}}}}}}}}}}}}}[B[B[B[B[B',
-	author_email='h6enderson037g5mail.com',
+	description='Provisions Config',
+	author='Henderson Villegas',
+	author_email='henderson037gmail.com',
 	packages=find_packages(),
 	zip_safe=False,
 	include_package_data=True,
