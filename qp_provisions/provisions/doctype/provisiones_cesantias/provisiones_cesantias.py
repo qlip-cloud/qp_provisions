@@ -46,9 +46,7 @@ class ProvisionesCesantias(Document):
 			) as t
 			GROUP BY t.party;		
 		""", as_dict=1)
-
-		frappe.log_error(message=frappe.get_traceback(), title="qp_provisions")
-
+		
 		if len(dr) > 0:
 
 			try:
