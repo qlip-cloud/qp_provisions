@@ -21,9 +21,9 @@ class ProvisionesCesantias(Document):
 				frappe.throw(_("Account: {0} does not exist").format(d))
 
 		if len(all_accounts) > 1:
-			all_accounts = tuple(all_accounts)
+			all_accounts = ' in {tuple(all_accounts)}'
 		else:
-			all_accounts = (all_accounts[0])
+			all_accounts = f" = '{all_accounts[0]}'"
 	
 		dr = frappe.db.sql(f"""
 			SELECT t.party, party_type, SUM(t.saldo) as saldo, SUM(t.saldo_porc) as saldo_porc
@@ -37,7 +37,7 @@ class ProvisionesCesantias(Document):
 				FROM `tabGL Entry`	
 				WHERE posting_date >= '{self.start_date}'
 				AND posting_date <= '{self.end_date}'
-				AND account in {all_accounts}
+				AND account {all_accounts}
 				GROUP BY party, account	
 				HAVING saldo > 0
 			) as t

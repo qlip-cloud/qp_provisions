@@ -6,6 +6,7 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "estado",
   "cuentas",
   "parametros_section",
   "cuenta_debito",
@@ -76,11 +77,17 @@
    "label": "Asientos Contables Generados",
    "options": "Journal Entry Provisions Cesantias",
    "read_only": 1
+  },
+  {
+   "fieldname": "estado",
+   "fieldtype": "Select",
+   "label": "Estado",
+   "options": "\nNuevo\nEn Proceso\nEjecutado"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-03-14 13:26:45.693305",
+ "modified": "2025-03-20 09:51:57.219729",
  "modified_by": "Administrator",
  "module": "Provisions",
  "name": "Provisiones Cesantias",
