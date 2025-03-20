@@ -26,7 +26,29 @@ class ProvisionesCesantias(Document):
 			all_accounts = ' in {tuple(all_accounts)}'
 		else:
 			all_accounts = f" = '{all_accounts[0]}'"
-	
+
+		query = f"""
+			SELECT t.party, party_type, SUM(t.saldo) as saldo, SUM(t.saldo_porc) as saldo_porc
+			FROM (
+				SELECT 	party, 
+					party_type, 
+					account, 
+					ABS(SUM(credit) - SUM(debit)) as saldo, 
+					{self.porcentaje} as porcentaje,
+					(ABS(SUM(credit) - SUM(debit)) * {self.porcentaje}) / 100 as saldo_porc
+				FROM `tabGL Entry`	
+				WHERE posting_date >= '{self.start_date}'
+				AND posting_date <= '{self.end_date}'
+				AND account {all_accounts}
+				AND is_cancelled = 0
+				GROUP BY party, account	
+				HAVING saldo > 0
+			) as t
+			GROUP BY t.party;		
+		"""
+
+		frappe.log_error(message=query, title="qp_provisions")
+
 		dr = frappe.db.sql(f"""
 			SELECT t.party, party_type, SUM(t.saldo) as saldo, SUM(t.saldo_porc) as saldo_porc
 			FROM (
