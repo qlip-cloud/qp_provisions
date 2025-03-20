@@ -4,6 +4,8 @@
 import frappe
 from frappe.model.document import Document
 from frappe.utils import nowdate
+from frappe import _
+
 
 class ProvisionesCesantias(Document):
 	
@@ -18,7 +20,7 @@ class ProvisionesCesantias(Document):
 				children = frappe.get_all("Account", filters={"lft": [">=", lft], "rgt": ["<=", rgt]})
 				all_accounts += [c.name for c in children]
 			else:
-				frappe.throw(_("Account: {0} does not exist").format(d))
+				frappe.throw(_("Account: {0} does not exist").format(c))
 
 		if len(all_accounts) > 1:
 			all_accounts = ' in {tuple(all_accounts)}'
