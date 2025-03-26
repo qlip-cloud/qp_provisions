@@ -4,5 +4,5 @@
 # import frappe
 import unittest
 
-class TestProvisionesCesantias(unittest.TestCase):
+class TestProvisiones(unittest.TestCase):
 	pass

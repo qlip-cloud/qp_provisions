@@ -7,7 +7,7 @@ from frappe.utils import nowdate
 from frappe import _
 
 
-class ProvisionesCesantias(Document):
+class Provisiones(Document):
 	
 	@frappe.whitelist()
 	def create_journal_entry(self):
@@ -82,7 +82,7 @@ class ProvisionesCesantias(Document):
 				
 				jepc = frappe.new_doc('Journal Entry Provisions Cesantias')
 				jepc.parent = self.name
-				jepc.parenttype = 'Provisiones Cesantias'
+				jepc.parenttype = 'Provisiones'
 				jepc.parentfield = 'asientos_contables_generados'
 				jepc.journal_entry = je.name
 				jepc.start_date = self.start_date

@@ -1,7 +1,7 @@
 // Copyright (c) 2025, Henderson Villegas and contributors
 // For license information, please see license.txt
 
-frappe.ui.form.on('Provisiones Cesantias', {
+frappe.ui.form.on('Provisiones', {
 	onload: function(frm) {
 
 		frappe.db.get_value('Property Setter', {'doc_type': 'Journal Entry', 'property':'options', 'field_name':'naming_series'}, 'value', (value) => {
