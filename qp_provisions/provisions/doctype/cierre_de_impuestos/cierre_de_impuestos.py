@@ -60,7 +60,7 @@ class CierredeImpuestos(Document):
 							'account': self.cuenta_contrapartida,
 							'debit_in_account_currency': abs(r.saldo),
 							'party_type': 'Supplier',
-							'party': frappe.get_doc('Supplier', r.tercero_contrapartida).name
+							'party': self.tercero_contrapartida
 						})
 						#Credito
 						je.append('accounts', {
@@ -83,7 +83,7 @@ class CierredeImpuestos(Document):
 							'account': self.cuenta_contrapartida,
 							'credit_in_account_currency': abs(r.saldo),
 							'party_type': 'Supplier',
-							'party': r.tercero_contrapartida
+							'party': self.tercero_contrapartida
 						})
 
 				if len(je.accounts) > 0:
