@@ -6,15 +6,13 @@ from frappe.model.document import Document
 from frappe.utils import nowdate
 from frappe import _
 
-
-class Provisiones(Document):
-	
+class CierredeImpuestos(Document):
 	@frappe.whitelist()
-	def create_journal_entry(self):
+	def create_closing_taxes(self):
 
 		all_accounts = []
 
-		for c in self.cuentas:
+		for c in self.cerrar_cuentas:
 			if frappe.db.exists("Account", c.account):
 				lft, rgt = frappe.db.get_value("Account", c.account, ["lft", "rgt"])
 				children = frappe.get_all("Account", filters={"lft": [">=", lft], "rgt": ["<=", rgt]})
@@ -28,23 +26,17 @@ class Provisiones(Document):
 			all_accounts = f" = '{all_accounts[0]}'"
 		
 		dr = frappe.db.sql(f"""
-			SELECT t.party, t.party_type, SUM(t.saldo) as saldo, SUM(t.saldo_porc) as saldo_porc
-			FROM (
 				SELECT 	party, 
 					party_type, 
 					account, 
-					ABS(SUM(credit) - SUM(debit)) as saldo, 
-					{self.porcentaje} as porcentaje,
-					(ABS(SUM(credit) - SUM(debit)) * {self.porcentaje}) / 100 as saldo_porc
+					(SUM(credit) - SUM(debit)) as saldo 
 				FROM `tabGL Entry`	
 				WHERE posting_date >= '{self.start_date}'
 				AND posting_date <= '{self.end_date}'
 				AND account {all_accounts}
 				AND is_cancelled = 0
 				GROUP BY party, account	
-				HAVING saldo > 0
-			) as t
-			GROUP BY t.party;		
+				HAVING saldo > 0		
 		""", as_dict=1)
 		
 		if len(dr) > 0:
@@ -53,37 +45,54 @@ class Provisiones(Document):
 
 				je = frappe.new_doc('Journal Entry')
 				je.naming_series = self.naming_series
-				je.posting_date = self.fecha_de_asiento
-				je.voucher_type = 'Journal Entry'
+				je.posting_date = self.fecha_contabilizacion
+				je.voucher_type = 'Period Closing Voucher'
 				je.finance_book = self.libro
-				je.status = 'Submitted'
+				je.status = 'Draft'
 				je.docstatus = 1
 
 				for r in dr:
-
-					#Debito
-					if frappe.db.exists(r.party_type, {"name": r.party, "disabled":0}):
+					
+					if r.saldo > 0: 
+						
+						#Debito
 						je.append('accounts', {
-							'account': self.cuenta_debito,
-							'debit_in_account_currency': r.saldo_porc,
-							'party_type': r.party_type,
-							'party': frappe.get_doc(r.party_type, r.party).name
+							'account': self.cuenta_contrapartida,
+							'debit_in_account_currency': abs(r.saldo),
+							'party_type': 'Supplier',
+							'party': r.tercero_contrapartida
 						})
 						#Credito
 						je.append('accounts', {
-							'account': self.cuenta_credito,
-							'credit_in_account_currency': r.saldo_porc,
+							'account': r.account,
+							'credit_in_account_currency': abs(r.saldo),
 							'party_type': r.party_type,
-							'party': frappe.get_doc(r.party_type, r.party).name
+							'party': r.party
+						})
+
+					if r.saldo < 0: 
+						#Debito
+						je.append('accounts', {
+							'account': r.account,
+							'debit_in_account_currency': abs(r.saldo),
+							'party_type': r.party_type,
+							'party': r.party
+						})
+						#Credito
+						je.append('accounts', {
+							'account': self.cuenta_contrapartida,
+							'credit_in_account_currency': abs(r.saldo),
+							'party_type': 'Supplier',
+							'party': r.tercero_contrapartida
 						})
 
 				if len(je.accounts) > 0:
 					je.flags.ignore_mandatory = True
 					je.save()
 				
-				jepc = frappe.new_doc('Journal Entry Provisions Cesantias')
+				jepc = frappe.new_doc('Journal Entry Closing Account')
 				jepc.parent = self.name
-				jepc.parenttype = 'Provisiones'
+				jepc.parenttype = 'Cierre de Impuestos'
 				jepc.parentfield = 'asientos_contables_generados'
 				jepc.journal_entry = je.name
 				jepc.start_date = self.start_date

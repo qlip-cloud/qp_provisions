@@ -1,44 +1,35 @@
 {
  "actions": [],
- "autoname": "PRO.CES.#######",
- "creation": "2025-03-13 14:19:47.928755",
+ "autoname": "CIE.IMP.#######",
+ "creation": "2025-03-28 08:22:07.067025",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
   "estado",
-  "cuentas",
+  "cerrar_cuentas",
   "parametros_section",
-  "cuenta_debito",
+  "tercero_contrapartida",
+  "cuenta_contrapartida",
   "naming_series",
-  "libro",
   "column_break_5",
-  "cuenta_credito",
-  "porcentaje",
-  "fecha_de_asiento",
+  "libro",
+  "fecha_contabilizacion",
   "asientos_section",
   "asientos_contables_generados"
  ],
  "fields": [
   {
-   "fieldname": "cuentas",
-   "fieldtype": "Table",
-   "label": "Cuentas",
-   "options": "Account Provisiones Cesantias",
-   "reqd": 1
+   "fieldname": "estado",
+   "fieldtype": "Select",
+   "label": "Estado",
+   "options": "\nNuevo\nEn Proceso\nEjecutado",
+   "read_only": 1
   },
   {
    "fieldname": "parametros_section",
    "fieldtype": "Section Break",
    "label": "Parametros"
-  },
-  {
-   "fieldname": "cuenta_debito",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "Cuenta Debito",
-   "options": "Account",
-   "reqd": 1
   },
   {
    "fieldname": "naming_series",
@@ -55,20 +46,6 @@
    "fieldtype": "Column Break"
   },
   {
-   "fieldname": "cuenta_credito",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "Cuenta Credito",
-   "options": "Account",
-   "reqd": 1
-  },
-  {
-   "fieldname": "porcentaje",
-   "fieldtype": "Currency",
-   "label": "Porcentaje",
-   "reqd": 1
-  },
-  {
    "fieldname": "asientos_section",
    "fieldtype": "Section Break",
    "label": "Asientos"
@@ -77,36 +54,48 @@
    "fieldname": "asientos_contables_generados",
    "fieldtype": "Table",
    "label": "Asientos Contables Generados",
-   "options": "Journal Entry Provisions Cesantias",
+   "options": "Journal Entry Closing Account",
    "read_only": 1
   },
   {
-   "fieldname": "estado",
-   "fieldtype": "Select",
-   "label": "Estado",
-   "options": "\nNuevo\nEn Proceso\nEjecutado",
-   "read_only": 1
+   "fieldname": "cerrar_cuentas",
+   "fieldtype": "Table",
+   "label": "Cerrar Cuentas",
+   "options": "Account Closing Account",
+   "reqd": 1
+  },
+  {
+   "fieldname": "tercero_contrapartida",
+   "fieldtype": "Link",
+   "label": "Tercero Contrapartida",
+   "options": "Supplier"
+  },
+  {
+   "fieldname": "cuenta_contrapartida",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Cuenta Contrapartida",
+   "options": "Account",
+   "reqd": 1
   },
   {
    "fieldname": "libro",
    "fieldtype": "Link",
    "label": "Libro",
-   "options": "Finance Book",
-   "reqd": 1
+   "options": "Finance Book"
   },
   {
-   "fieldname": "fecha_de_asiento",
+   "fieldname": "fecha_contabilizacion",
    "fieldtype": "Date",
-   "label": "Fecha de Asiento",
-   "reqd": 1
+   "label": "Fecha Contabilizacion"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-03-28 12:23:36.965076",
+ "modified": "2025-03-28 08:37:53.313022",
  "modified_by": "Administrator",
  "module": "Provisions",
- "name": "Provisiones",
+ "name": "Cierre de Impuestos",
  "owner": "Administrator",
  "permissions": [
   {
