@@ -55,33 +55,33 @@ class CierredeImpuestos(Document):
 					
 					if r.saldo > 0: 
 						
-						#Debito
+						#Credito
 						je.append('accounts', {
 							'account': self.cuenta_contrapartida,
-							'debit_in_account_currency': abs(r.saldo),
+							'credit_in_account_currency': abs(r.saldo),
 							'party_type': 'Supplier',
 							'party': self.tercero_contrapartida
 						})
-						#Credito
+						#Debito
 						je.append('accounts', {
 							'account': r.account,
-							'credit_in_account_currency': abs(r.saldo),
+							'debit_in_account_currency': abs(r.saldo),
 							'party_type': r.party_type,
 							'party': r.party
 						})
 
 					if r.saldo < 0: 
-						#Debito
+						#Credito
 						je.append('accounts', {
 							'account': r.account,
-							'debit_in_account_currency': abs(r.saldo),
+							'credit_in_account_currency': abs(r.saldo),
 							'party_type': r.party_type,
 							'party': r.party
 						})
-						#Credito
+						#Debito
 						je.append('accounts', {
 							'account': self.cuenta_contrapartida,
-							'credit_in_account_currency': abs(r.saldo),
+							'debit_in_account_currency': abs(r.saldo),
 							'party_type': 'Supplier',
 							'party': self.tercero_contrapartida
 						})
