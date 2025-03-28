@@ -49,7 +49,7 @@ class CierredeImpuestos(Document):
 				je.voucher_type = 'Period Closing Voucher'
 				je.finance_book = self.libro
 				je.status = 'Draft'
-				je.docstatus = 1
+				je.docstatus = 0
 
 				for r in dr:
 					
@@ -60,7 +60,7 @@ class CierredeImpuestos(Document):
 							'account': self.cuenta_contrapartida,
 							'debit_in_account_currency': abs(r.saldo),
 							'party_type': 'Supplier',
-							'party': r.tercero_contrapartida
+							'party': frappe.get_doc('Supplier', r.tercero_contrapartida).name
 						})
 						#Credito
 						je.append('accounts', {
