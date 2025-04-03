@@ -1,0 +1,117 @@
+{
+ "actions": [],
+ "autoname": "CIE.IMP.#######",
+ "creation": "2025-03-28 08:22:07.067025",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "estado",
+  "cerrar_cuentas",
+  "parametros_section",
+  "tercero_contrapartida",
+  "cuenta_contrapartida",
+  "naming_series",
+  "column_break_5",
+  "libro",
+  "fecha_contabilizacion",
+  "asientos_section",
+  "asientos_contables_generados"
+ ],
+ "fields": [
+  {
+   "fieldname": "estado",
+   "fieldtype": "Select",
+   "label": "Estado",
+   "options": "\nNuevo\nEn Proceso\nEjecutado",
+   "read_only": 1
+  },
+  {
+   "fieldname": "parametros_section",
+   "fieldtype": "Section Break",
+   "label": "Parametros"
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "in_global_search": 1,
+   "in_list_view": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
+   "label": "Series",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_5",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "asientos_section",
+   "fieldtype": "Section Break",
+   "label": "Asientos"
+  },
+  {
+   "fieldname": "asientos_contables_generados",
+   "fieldtype": "Table",
+   "label": "Asientos Contables Generados",
+   "options": "Journal Entry Closing Account",
+   "read_only": 1
+  },
+  {
+   "fieldname": "cerrar_cuentas",
+   "fieldtype": "Table",
+   "label": "Cerrar Cuentas",
+   "options": "Account Closing Account",
+   "reqd": 1
+  },
+  {
+   "fieldname": "tercero_contrapartida",
+   "fieldtype": "Link",
+   "label": "Tercero Contrapartida",
+   "options": "Supplier"
+  },
+  {
+   "fieldname": "cuenta_contrapartida",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Cuenta Contrapartida",
+   "options": "Account",
+   "reqd": 1
+  },
+  {
+   "fieldname": "libro",
+   "fieldtype": "Link",
+   "label": "Libro",
+   "options": "Finance Book"
+  },
+  {
+   "fieldname": "fecha_contabilizacion",
+   "fieldtype": "Date",
+   "label": "Fecha Contabilizacion"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-03-28 08:37:53.313022",
+ "modified_by": "Administrator",
+ "module": "Provisions",
+ "name": "Cierre de Impuestos",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}

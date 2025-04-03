@@ -6,13 +6,16 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "estado",
   "cuentas",
   "parametros_section",
   "cuenta_debito",
   "naming_series",
+  "libro",
   "column_break_5",
   "cuenta_credito",
   "porcentaje",
+  "fecha_de_asiento",
   "asientos_section",
   "asientos_contables_generados"
  ],
@@ -76,14 +79,34 @@
    "label": "Asientos Contables Generados",
    "options": "Journal Entry Provisions Cesantias",
    "read_only": 1
+  },
+  {
+   "fieldname": "estado",
+   "fieldtype": "Select",
+   "label": "Estado",
+   "options": "\nNuevo\nEn Proceso\nEjecutado",
+   "read_only": 1
+  },
+  {
+   "fieldname": "libro",
+   "fieldtype": "Link",
+   "label": "Libro",
+   "options": "Finance Book",
+   "reqd": 1
+  },
+  {
+   "fieldname": "fecha_de_asiento",
+   "fieldtype": "Date",
+   "label": "Fecha de Asiento",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-03-14 13:26:45.693305",
+ "modified": "2025-03-28 12:23:36.965076",
  "modified_by": "Administrator",
  "module": "Provisions",
- "name": "Provisiones Cesantias",
+ "name": "Provisiones",
  "owner": "Administrator",
  "permissions": [
   {
