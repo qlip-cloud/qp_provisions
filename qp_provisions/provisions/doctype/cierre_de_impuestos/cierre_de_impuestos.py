@@ -49,6 +49,7 @@ class CierredeImpuestos(Document):
 				je.finance_book = self.libro
 				je.status = 'Draft'
 				je.docstatus = 0
+				je.accounts = []
 
 				for r in dr:
 					
@@ -86,20 +87,25 @@ class CierredeImpuestos(Document):
 						})
 
 				if len(je.accounts) > 0:
+					
 					je.flags.ignore_mandatory = True
 					je.save()
 				
-				jepc = frappe.new_doc('Journal Entry Closing Account')
-				jepc.parent = self.name
-				jepc.parenttype = 'Cierre de Impuestos'
-				jepc.parentfield = 'asientos_contables_generados'
-				jepc.journal_entry = je.name
-				jepc.start_date = self.start_date
-				jepc.end_date = self.end_date
-				jepc.flags.ignore_mandatory = True
-				jepc.save()
+					jepc = frappe.new_doc('Journal Entry Closing Account')
+					jepc.parent = self.name
+					jepc.parenttype = 'Cierre de Impuestos'
+					jepc.parentfield = 'asientos_contables_generados'
+					jepc.journal_entry = je.name
+					jepc.start_date = self.start_date
+					jepc.end_date = self.end_date
+					jepc.flags.ignore_mandatory = True
+					jepc.save()
+					
+					return {'success':True, 'journal':je.name}
 				
-				return {'success':True, 'journal':je.name}
+				else:
+
+					return {'success':False, 'journal':None}
 
 			except Exception as ex:
 				frappe.log_error(message=frappe.get_traceback(), title="qp_provisions")

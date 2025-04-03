@@ -47,6 +47,8 @@ class Provisiones(Document):
 			GROUP BY t.party;		
 		""", as_dict=1)
 		
+		frappe.log_error(message=dr, title="qp_provisions")
+
 		if len(dr) > 0:
 
 			try:
@@ -58,6 +60,7 @@ class Provisiones(Document):
 				je.finance_book = self.libro
 				je.status = 'Submitted'
 				je.docstatus = 1
+				je.accounts = []
 
 				for r in dr:
 
@@ -81,17 +84,21 @@ class Provisiones(Document):
 					je.flags.ignore_mandatory = True
 					je.save()
 				
-				jepc = frappe.new_doc('Journal Entry Provisions Cesantias')
-				jepc.parent = self.name
-				jepc.parenttype = 'Provisiones'
-				jepc.parentfield = 'asientos_contables_generados'
-				jepc.journal_entry = je.name
-				jepc.start_date = self.start_date
-				jepc.end_date = self.end_date
-				jepc.flags.ignore_mandatory = True
-				jepc.save()
+					jepc = frappe.new_doc('Journal Entry Provisions Cesantias')
+					jepc.parent = self.name
+					jepc.parenttype = 'Provisiones'
+					jepc.parentfield = 'asientos_contables_generados'
+					jepc.journal_entry = je.name
+					jepc.start_date = self.start_date
+					jepc.end_date = self.end_date
+					jepc.flags.ignore_mandatory = True
+					jepc.save()
+					
+					return {'success':True, 'journal':je.name}
 				
-				return {'success':True, 'journal':je.name}
+				else:
+
+					return {'success':False, 'journal':None}
 
 			except Exception as ex:
 				frappe.log_error(message=frappe.get_traceback(), title="qp_provisions")
