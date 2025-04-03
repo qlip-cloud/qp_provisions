@@ -42,7 +42,6 @@ class Provisiones(Document):
 				AND account {all_accounts}
 				AND is_cancelled = 0
 				GROUP BY party, account	
-				HAVING saldo > 0
 			) as t
 			GROUP BY t.party;		
 		""", as_dict=1)
@@ -58,7 +57,7 @@ class Provisiones(Document):
 				je.finance_book = self.libro
 				je.status = 'Submitted'
 				je.docstatus = 1
-				je.account = []
+				je.accounts = []
 
 				for r in dr:
 
