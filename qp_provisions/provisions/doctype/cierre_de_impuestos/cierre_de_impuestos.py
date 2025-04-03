@@ -105,7 +105,6 @@ class CierredeImpuestos(Document):
 				frappe.log_error(message=frappe.get_traceback(), title="qp_provisions")
 				frappe.db.rollback()
 	
-
 		return {'success':False, 'journal':None}
 	
 
