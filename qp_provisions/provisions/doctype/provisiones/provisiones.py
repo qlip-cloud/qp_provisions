@@ -27,6 +27,25 @@ class Provisiones(Document):
 		else:
 			all_accounts = f" = '{all_accounts[0]}'"
 		
+		frappe.log_error(message=f"""
+			SELECT t.party, t.party_type, SUM(t.saldo) as saldo, SUM(t.saldo_porc) as saldo_porc
+			FROM (
+				SELECT 	party, 
+					party_type, 
+					account, 
+					ABS(SUM(credit) - SUM(debit)) as saldo, 
+					{self.porcentaje} as porcentaje,
+					(ABS(SUM(credit) - SUM(debit)) * {self.porcentaje}) / 100 as saldo_porc
+				FROM `tabGL Entry`	
+				WHERE posting_date >= '{self.start_date}'
+				AND posting_date <= '{self.end_date}'
+				AND account {all_accounts}
+				AND is_cancelled = 0
+				GROUP BY party, account	
+			) as t
+			GROUP BY t.party;		
+		""", title="qp_provisions")
+
 		dr = frappe.db.sql(f"""
 			SELECT t.party, t.party_type, SUM(t.saldo) as saldo, SUM(t.saldo_porc) as saldo_porc
 			FROM (
@@ -42,6 +61,7 @@ class Provisiones(Document):
 				AND account {all_accounts}
 				AND is_cancelled = 0
 				GROUP BY party, account	
+				HAVING saldo > 0
 			) as t
 			GROUP BY t.party;		
 		""", as_dict=1)
@@ -81,17 +101,21 @@ class Provisiones(Document):
 					je.flags.ignore_mandatory = True
 					je.save()
 				
-				jepc = frappe.new_doc('Journal Entry Provisions Cesantias')
-				jepc.parent = self.name
-				jepc.parenttype = 'Provisiones'
-				jepc.parentfield = 'asientos_contables_generados'
-				jepc.journal_entry = je.name
-				jepc.start_date = self.start_date
-				jepc.end_date = self.end_date
-				jepc.flags.ignore_mandatory = True
-				jepc.save()
+					jepc = frappe.new_doc('Journal Entry Provisions Cesantias')
+					jepc.parent = self.name
+					jepc.parenttype = 'Provisiones'
+					jepc.parentfield = 'asientos_contables_generados'
+					jepc.journal_entry = je.name
+					jepc.start_date = self.start_date
+					jepc.end_date = self.end_date
+					jepc.flags.ignore_mandatory = True
+					jepc.save()
+					
+					return {'success':True, 'journal':je.name}
 				
-				return {'success':True, 'journal':je.name}
+				else:
+
+					return {'success':False, 'journal':None}
 
 			except Exception as ex:
 				frappe.log_error(message=frappe.get_traceback(), title="qp_provisions")
