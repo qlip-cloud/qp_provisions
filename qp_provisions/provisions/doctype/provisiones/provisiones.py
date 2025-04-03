@@ -58,6 +58,7 @@ class Provisiones(Document):
 				je.finance_book = self.libro
 				je.status = 'Submitted'
 				je.docstatus = 1
+				je.account = []
 
 				for r in dr:
 
