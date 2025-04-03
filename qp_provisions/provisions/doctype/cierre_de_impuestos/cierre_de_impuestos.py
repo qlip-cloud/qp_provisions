@@ -36,7 +36,6 @@ class CierredeImpuestos(Document):
 				AND account {all_accounts}
 				AND is_cancelled = 0
 				GROUP BY party, account	
-				HAVING saldo > 0		
 		""", as_dict=1)
 		
 		if len(dr) > 0:
