@@ -44,7 +44,7 @@ class Provisiones(Document):
 				GROUP BY party, account, cost_center
 				HAVING saldo > 0
 			) as t
-			GROUP BY t.party;		
+			GROUP BY t.party, t.cost_center;		
 		""", as_dict=1)
 		
 		frappe.log_error(message=dr, title="qp_provisions")
