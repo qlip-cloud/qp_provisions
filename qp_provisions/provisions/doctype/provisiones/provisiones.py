@@ -35,21 +35,19 @@ class Provisiones(Document):
 					account, 
 					ABS(SUM(credit) - SUM(debit)) as saldo, 
 					{self.porcentaje} as porcentaje,
-					(ABS(SUM(credit) - SUM(debit)) * {self.porcentaje}) / 100 as saldo_porc,
-					cost_center
+					(ABS(SUM(credit) - SUM(debit)) * {self.porcentaje}) / 100 as saldo_porc
 				FROM `tabGL Entry`	
 				WHERE posting_date >= '{self.start_date}'
 				AND posting_date <= '{self.end_date}'
 				AND account {all_accounts}
 				AND is_cancelled = 0
-				GROUP BY party, account, cost_center
+				GROUP BY party, account	
 				HAVING saldo > 0
 			) as t
-			GROUP BY t.party, t.cost_center;		
+			GROUP BY t.party;		
 		""", as_dict=1)
 		
-		frappe.log_error(message=dr, title="qp_provisions")
-
+		
 		if len(dr) > 0:
 
 			try:
@@ -71,16 +69,14 @@ class Provisiones(Document):
 							'account': self.cuenta_debito,
 							'debit_in_account_currency': r.saldo_porc,
 							'party_type': r.party_type,
-							'party': frappe.get_doc(r.party_type, r.party).name,
-							'cost_center':r.cost_center
+							'party': frappe.get_doc(r.party_type, r.party).name
 						})
 						#Credito
 						je.append('accounts', {
 							'account': self.cuenta_credito,
 							'credit_in_account_currency': r.saldo_porc,
 							'party_type': r.party_type,
-							'party': frappe.get_doc(r.party_type, r.party).name,
-							'cost_center':r.cost_center
+							'party': frappe.get_doc(r.party_type, r.party).name
 						})
 
 				if len(je.accounts) > 0:
