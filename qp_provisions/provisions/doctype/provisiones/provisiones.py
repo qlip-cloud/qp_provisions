@@ -41,7 +41,7 @@ class Provisiones(Document):
 				AND posting_date <= '{self.end_date}'
 				AND account {all_accounts}
 				AND is_cancelled = 0
-				GROUP BY party, account	
+				GROUP BY party, account, cost_center
 				HAVING saldo > 0
 			) as t
 			GROUP BY t.party;		
