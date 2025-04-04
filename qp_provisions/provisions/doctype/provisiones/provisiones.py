@@ -71,14 +71,16 @@ class Provisiones(Document):
 							'account': self.cuenta_debito,
 							'debit_in_account_currency': r.saldo_porc,
 							'party_type': r.party_type,
-							'party': frappe.get_doc(r.party_type, r.party).name
+							'party': frappe.get_doc(r.party_type, r.party).name,
+							'cost_center':r.cost_center
 						})
 						#Credito
 						je.append('accounts', {
 							'account': self.cuenta_credito,
 							'credit_in_account_currency': r.saldo_porc,
 							'party_type': r.party_type,
-							'party': frappe.get_doc(r.party_type, r.party).name
+							'party': frappe.get_doc(r.party_type, r.party).name,
+							'cost_center':r.cost_center
 						})
 
 				if len(je.accounts) > 0:
