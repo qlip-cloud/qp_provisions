@@ -35,7 +35,8 @@ class Provisiones(Document):
 					account, 
 					ABS(SUM(credit) - SUM(debit)) as saldo, 
 					{self.porcentaje} as porcentaje,
-					(ABS(SUM(credit) - SUM(debit)) * {self.porcentaje}) / 100 as saldo_porc
+					(ABS(SUM(credit) - SUM(debit)) * {self.porcentaje}) / 100 as saldo_porc,
+					cost_center
 				FROM `tabGL Entry`	
 				WHERE posting_date >= '{self.start_date}'
 				AND posting_date <= '{self.end_date}'
