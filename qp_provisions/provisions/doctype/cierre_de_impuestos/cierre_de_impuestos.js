@@ -18,20 +18,31 @@ frappe.ui.form.on('Cierre de Impuestos', {
 			frm.doc.estado = 'Nuevo'
 		}
 
+
+		// INICIO: H74 -Cambio tipo de cuenta en filtro cierre de impuetsos
+
 		frm.set_query("cuenta_contrapartida", function() {
             return {
-                filters: {"account_type": "Tax"}
+                filters: {"is_group": "0"}
             };
         });
 
-		frm.fields_dict['cerrar_cuentas'].grid.get_field('account').get_query = function(doc, cdt, cdn) {
-			var child = locals[cdt][cdn];
-			return {    
-				filters:[
-					['account_type', '=', 'Tax']
-				]
-			}
-		}
+		// frm.set_query("cuenta_contrapartida", function() {
+        //     return {
+        //         filters: {"account_type": "Tax"}
+        //     };
+        // });
+
+		// frm.fields_dict['cerrar_cuentas'].grid.get_field('account').get_query = function(doc, cdt, cdn) {
+		// 	var child = locals[cdt][cdn];
+		// 	return {
+		// 		filters:[
+		// 			['account_type', '=', 'Tax']
+		// 		]
+		// 	}
+		// }
+
+		// FIN: H74 -Cambio tipo de cuenta en filtro cierre de impuetsos
 
 		frm.refresh_fields()
 
