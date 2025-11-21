@@ -11,6 +11,7 @@ class CierredeImpuestos(Document):
 	def create_closing_taxes(self):
 
 		all_accounts = []
+		additional_conditions = []
 
 		for c in self.cerrar_cuentas:
 			if frappe.db.exists("Account", c.account):
@@ -25,6 +26,25 @@ class CierredeImpuestos(Document):
 		else:
 			all_accounts = f" = '{all_accounts[0]}'"
 		
+		if self.libro:
+			additional_conditions.append(f"finance_book = '{self.libro}'")
+
+		additional_condition = " and {}".format(" and ".join(additional_conditions)) if additional_conditions else ""
+
+		print(f"""
+				SELECT 	party, 
+					party_type, 
+					account, 
+					(SUM(credit) - SUM(debit)) as saldo 
+				FROM `tabGL Entry`	
+				WHERE posting_date >= '{self.start_date}'
+				AND posting_date <= '{self.end_date}'
+				AND account {all_accounts}
+				AND is_cancelled = 0
+				{additional_condition}
+				GROUP BY party, account	
+		""")
+
 		dr = frappe.db.sql(f"""
 				SELECT 	party, 
 					party_type, 
@@ -35,6 +55,7 @@ class CierredeImpuestos(Document):
 				AND posting_date <= '{self.end_date}'
 				AND account {all_accounts}
 				AND is_cancelled = 0
+				{additional_condition}
 				GROUP BY party, account	
 		""", as_dict=1)
 		
