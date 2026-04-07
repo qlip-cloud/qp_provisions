@@ -64,7 +64,14 @@ class Provisiones(Document):
 				for r in dr:
 
 					#Debito
-					if frappe.db.exists(r.party_type, {"name": r.party, "disabled":0}):
+					party_exists = None
+
+					if r.party_type == "Employee":
+						party_exists = frappe.db.exists(r.party_type, {"name": r.party, "status":"Active"})
+					else:
+						party_exists = frappe.db.exists(r.party_type, {"name": r.party, "disabled":0})
+
+					if party_exists:
 						je.append('accounts', {
 							'account': self.cuenta_debito,
 							'debit_in_account_currency': r.saldo_porc,
